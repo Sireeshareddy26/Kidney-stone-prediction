@@ -1,17 +1,19 @@
 import streamlit as st
-import joblib
+import pickle
 import pandas as pd
 import numpy as np
 
 # 1. Load the trained model and scaler
 @st.cache_resource
 def load_model():
-    model = joblib.load('ada_model.joblib')
+    with open('ada_model.pkl', 'rb') as f:
+        model = pickle.load(f)
     return model
 
 @st.cache_resource
 def load_scaler():
-    scaler = joblib.load('scaler.joblib')
+    with open('scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
     return scaler
 
 ada_model = load_model()
@@ -77,9 +79,13 @@ if st.button('Predict Kidney Stone Disease'):
     st.write('---')
     st.subheader('Prediction Result:')
     if prediction[0] == 1:
-        st.error(f"\n### Kidney Stone Disease: Yes (Probability: {prediction_proba[1]:.2f})\n")
+        st.error(f"
+### Kidney Stone Disease: Yes (Probability: {prediction_proba[1]:.2f})
+")
     else:
-        st.success(f"\n### Kidney Stone Disease: No (Probability: {prediction_proba[0]:.2f})\n")
+        st.success(f"
+### Kidney Stone Disease: No (Probability: {prediction_proba[0]:.2f})
+")
 
     # Store the result for daily entries
     if 'daily_entries' not in st.session_state:
