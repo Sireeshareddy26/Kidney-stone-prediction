@@ -1,4 +1,4 @@
-import streamlit as st
+app_py_content = """import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
@@ -79,13 +79,9 @@ if st.button('Predict Kidney Stone Disease'):
     st.write('---')
     st.subheader('Prediction Result:')
     if prediction[0] == 1:
-        st.error(f"
-### Kidney Stone Disease: Yes (Probability: {prediction_proba[1]:.2f})
-")
+        st.error(f"### Kidney Stone Disease: Yes (Probability: {prediction_proba[1]:.2f})")
     else:
-        st.success(f"
-### Kidney Stone Disease: No (Probability: {prediction_proba[0]:.2f})
-")
+        st.success(f"### Kidney Stone Disease: No (Probability: {prediction_proba[0]:.2f})")
 
     # Store the result for daily entries
     if 'daily_entries' not in st.session_state:
@@ -123,3 +119,9 @@ if 'daily_entries' in st.session_state and st.session_state.daily_entries:
     )
 else:
     st.info('No entries recorded yet.')
+"""
+
+with open('app.py', 'w') as f:
+    f.write(app_py_content)
+
+print("Updated app.py to load .pkl files in the Colab environment.")
